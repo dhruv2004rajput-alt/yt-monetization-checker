@@ -64,74 +64,52 @@ The JSON must follow this exact structure:
 verdict must be one of: LIKELY_ELIGIBLE, BORDERLINE, NOT_ELIGIBLE
 Include at least 6-8 videos. Be realistic and detailed.`;
 
-// Models to try in order (fallback if one is rate limited)
+// Models to try in order
 const MODELS = [
-  "gemini-2.0-flash",
-  "gemini-2.0-flash-lite",
-  "gemini-1.5-flash-latest",
-  "gemini-1.5-flash-8b",
+  "gemini-2.0-flash-exp",
+  "gemini-1.5-flash",
+  "gemini-pro",
 ];
 
 async function callGemini(apiKey, model, channelUrl) {
-  const GEMINI_URL= `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
-  return await fetch(GEMINI_URL, {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  return await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      contents: [
-        {
-          parts: [
-            {
-              text: `${SYSTEM_PROMPT}\n\nAnalyze this YouTube channel for monetization eligibility: ${channelUrl}`
-            }
-          ]
-        }
-      ],
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 4000
-      }
+      contents: [{ parts: [{ text: `${SYSTEM_PROMPT}\n\nAnalyze this YouTube channel for monetization eligibility: ${channelUrl}` }] }],
+      generationConfig: { temperature: 0.7, maxOutputTokens: 4000 }
     })
   });
 }
 
 export default async function handler(req, res) {
-  // Only allow POST
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  // Check request body exists
   if (!req.body) {
     return res.status(400).json({ error: "Request body is missing" });
   }
 
   const { url } = req.body;
 
-  // Validate URL input
   if (!url || !url.trim()) {
     return res.status(400).json({ error: "Please provide a YouTube channel URL" });
   }
 
-  // Basic YouTube URL/handle validation
-  const isYouTube =
-    url.includes("youtube.com") ||
-    url.includes("youtu.be") ||
-    url.startsWith("@") ||
-    url.match(/^UC[a-zA-Z0-9_-]{22}$/);
+  const isYouTube = url.includes("youtube.com") || url.includes("youtu.be") || url.startsWith("@") || url.match(/^UC[a-zA-Z0-9_-]{22}$/);
 
   if (!isYouTube) {
     return res.status(400).json({ error: "Please enter a valid YouTube channel URL or @handle" });
   }
 
-  // ✅ SAFE: API key from environment variable only
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
   if (!GEMINI_API_KEY) {
     return res.status(500).json({ error: "API key not configured. Please set GEMINI_API_KEY in Vercel environment variables." });
   }
 
-  // Try each model in order until one works
   let lastError = "Unknown error";
 
   for (const model of MODELS) {
@@ -141,18 +119,13 @@ export default async function handler(req, res) {
 
       if (!response.ok) {
         const errData = await response.json();
-        const code = errData?.error?.code;
-
-        // If quota exceeded (429) or model not found (404), try next model
-        if (code === 429 || code === 404) {
-          console.log(`Model ${model} failed with code ${code}, trying next model...`);
+        if (errData?.error?.code === 429 || errData?.error?.code === 404) {
+          console.log(`Model ${model} failed, trying next...`);
           lastError = errData?.error?.message || "Quota exceeded";
           continue;
         }
-
-        // For other errors stop immediately
         console.error("Gemini API error:", errData);
-        return res.status(500).json({ error: "AI service error: " + (errData?.error?.message || "Unknown") });
+        return res.status(500).json({ error: "AI service error. Please try again." });
       }
 
       const data = await response.json();
@@ -160,8 +133,7 @@ export default async function handler(req, res) {
       const clean = text.replace(/```json|```/g, "").trim();
 
       if (!clean) {
-        lastError = "Empty response from AI";
-        console.log(`Model ${model} returned empty response, trying next...`);
+        lastError = "Empty response";
         continue;
       }
 
@@ -169,8 +141,8 @@ export default async function handler(req, res) {
       try {
         parsed = JSON.parse(clean);
       } catch (e) {
-        console.error("JSON parse failed for model", model, "Raw:", text.substring(0, 200));
-        lastError = "Failed to parse AI response";
+        console.error("JSON parse failed for model", model);
+        lastError = "Parse error";
         continue;
       }
 
@@ -178,15 +150,13 @@ export default async function handler(req, res) {
       return res.status(200).json(parsed);
 
     } catch (err) {
-      console.error(`Network error with model ${model}:`, err.message);
+      console.error(`Error with model ${model}:`, err.message);
       lastError = err.message;
       continue;
     }
   }
 
-  // All models failed
-  console.error("All models failed. Last error:", lastError);
   return res.status(429).json({
-    error: "AI quota exceeded on all models. Please wait a few minutes and try again. Quota resets every 24 hours."
+    error: "AI quota exceeded. Please wait a few minutes and try again."
   });
 }
