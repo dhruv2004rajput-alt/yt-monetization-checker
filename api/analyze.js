@@ -98,10 +98,9 @@ export default async function handler(req, res) {
     const GEMINI_API_KEY = "AIzaSyA5pyh2ypWZZM5Or0J6WFxePGsBX4WWOiE";
 
     // Check if API key is configured
-    if (!GEMINI_API_KEY) {
-      return res.status(500).json({ error: "API key not configured. Please set GEMINI_API_KEY in environment variables." });
-    }
-
+   if (!GEMINI_API_KEY) {
+  return res.status(500).json({ error: "API KEY IS MISSING" });
+}
     const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
     const response = await fetch(GEMINI_URL, {
