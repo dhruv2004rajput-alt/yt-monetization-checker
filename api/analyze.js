@@ -95,7 +95,7 @@ export default async function handler(req, res) {
 
   try {
     // ✅ SAFE: API key loaded from environment variable (never hardcode it!)
-    const GEMINI_API_KEY = "AIzaSyA5pyh2ypWZZM5Or0J6WFxePGsBX4WWOiE";
+    const GEMINI_API_KEY = "AIzaSyDkM_oaYGNv02k6CgoH3GIl91HuR2EYDjg";
 
     // Check if API key is configured
    if (!GEMINI_API_KEY) {
