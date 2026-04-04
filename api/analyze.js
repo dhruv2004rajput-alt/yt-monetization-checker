@@ -73,7 +73,7 @@ const MODELS = [
 ];
 
 async function callGemini(apiKey, model, channelUrl) {
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+  const GEMINI_URL= `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
   return await fetch(GEMINI_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
