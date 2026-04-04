@@ -93,10 +93,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Please enter a valid YouTube channel URL or @handle" });
   }
 
-  try {
-    // ✅ SAFE: API key loaded from environment variable (never hardcode it!)
-    const GEMINI_API_KEY = "AIzaSyDkM_oaYGNv02k6CgoH3GIl91HuR2EYDjg";
-
+// Change this back to:
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
     // Check if API key is configured
    if (!GEMINI_API_KEY) {
   return res.status(500).json({ error: "API KEY IS MISSING" });
