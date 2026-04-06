@@ -322,7 +322,7 @@ const AboutPage = ({ isMobile, isTablet }) => {
         <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:800, color:"#fff", marginBottom:10 }}>Get in Touch</h3>
         <p style={{ fontSize:12, color:"rgba(255,255,255,0.35)", lineHeight:1.8, fontFamily:"'Inter',sans-serif", marginBottom:16 }}>Have a suggestion, found a bug, or want to collaborate? Reach out through any of the channels below.</p>
         <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
-          {[["Twitter / X","@FFDRYT","#00B8FF"],["YouTube","youtube.com/@FFDRYT","#FF4757"],["Email","hello@monetizecheck.io","#00E5A0"]].map(([p,v,c])=>(
+          {[["Instagram ","@FFDRYT","#00B8FF"],["YouTube","youtube.com/@ffdryt","#FF4757"],["Email","brazilserverop9@gmail.com","#00E5A0"]].map(([p,v,c])=>(
             <div key={p} style={{ background:`${c}08`, border:`1px solid ${c}25`, borderRadius:10, padding:"10px 16px" }}>
               <div style={{ fontSize:9, color:c, fontFamily:"'DM Mono',monospace", letterSpacing:1.5, marginBottom:4 }}>{p}</div>
               <div style={{ fontSize:12, color:"rgba(255,255,255,0.6)", fontFamily:"'Inter',sans-serif" }}>{v}</div>
