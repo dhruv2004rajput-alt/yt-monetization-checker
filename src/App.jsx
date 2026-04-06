@@ -446,8 +446,8 @@ const PrivacyPage = ({ isMobile }) => {
           <div style={{ background:"rgba(0,229,160,0.05)", border:"1px solid rgba(0,229,160,0.15)", borderRadius:12, padding:"16px 20px" }}>
             <div style={{ fontSize:13, color:"rgba(255,255,255,0.55)", lineHeight:2.2, fontFamily:"'DM Mono',monospace" }}>
               <div><span style={{ color:"rgba(255,255,255,0.28)" }}>Creator: </span>FFDRYT</div>
-              <div><span style={{ color:"rgba(255,255,255,0.28)" }}>Email: </span>hello@monetizecheck.io</div>
-              <div><span style={{ color:"rgba(255,255,255,0.28)" }}>Twitter: </span>@FFDRYT</div>
+              <div><span style={{ color:"rgba(255,255,255,0.28)" }}>Email: </span>brazilserverop9@gmail.com</div>
+              <div><span style={{ color:"rgba(255,255,255,0.28)" }}>Youtube: </span>@FFDRYT</div>
             </div>
           </div>
         </Sec>
