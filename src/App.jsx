@@ -364,7 +364,7 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
 
       {/* Stats */}
       <div style={{ display:"grid", gridTemplateColumns:`repeat(${isMobile?2:4},1fr)`, gap:10, marginBottom:36 }}>
-        {[["10,000+","Channels Analyzed"],["100%","Free Forever"],["2026","Year Launched"],["1","Creator Behind It"]].map(([v,l])=>(
+        {[["1000+","Channels Analyzed"],["100%","Free Forever"],["2026","Year Launched"],["FFDRYT","Creator Behind It"]].map(([v,l])=>(
           <div key={l} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:14, padding:"18px 14px", textAlign:"center" }}>
             <div style={{ fontSize:20, fontWeight:800, color:"#00E5A0", fontFamily:"'Syne',sans-serif", letterSpacing:-0.5, marginBottom:6 }}>{v}</div>
             <div style={{ fontSize:9, color:"rgba(255,255,255,0.3)", fontFamily:"'DM Mono',monospace", letterSpacing:1.5, textTransform:"uppercase" }}>{l}</div>
