@@ -60,7 +60,8 @@ const AD_KEYS = {
   BANNER_728x90: '3c7efd6cccf880252247f5e3f01023d6',   // Ad 2 - Leaderboard
   BANNER_160x600: 'ed241e0d50d14c2187798f0457361372',  // Ad 3 - Sidebar skyscraper
   BANNER_300x250: '89e7453f78e9e91da7d824f8f9982088',  // Ad 4 - Rectangle
-  BANNER_468x60: '880269cfd8add5827d838187796885af'    // Ad 5 - Footer banner
+  BANNER_468x60: '880269cfd8add5827d838187796885af',    // Ad 5 - Footer banner
+  BANNER_160x300: 'ef3ee27ee82683b0143defc6bc42fd12'
 };
 
 function injectFonts() {
