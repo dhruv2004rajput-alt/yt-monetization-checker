@@ -201,7 +201,7 @@ const Footer = ({ setPage, isMobile }) => (
             <div style={{ width:30, height:30, background:"linear-gradient(135deg,#00E5A0,#00A870)", borderRadius:8, display:"flex", alignItems:"center", justifyContent:"center", fontSize:13 }}>▶</div>
             <span style={{ fontSize:14, fontWeight:800, color:"#fff", fontFamily:"'Syne',sans-serif" }}>MonetizeCheck</span>
           </div>
-          <p style={{ fontSize:11, color:"rgba(255,255,255,0.2)", lineHeight:1.8, maxWidth:200, fontFamily:"'Inter',sans-serif" }}>Free AI-powered YouTube monetization eligibility analyzer by FFDRYT.</p>
+          <p style={{ fontSize:11, color:"#fff", lineHeight:1.8, maxWidth:200, fontFamily:"'Inter',sans-serif" }}>Free AI-powered YouTube monetization eligibility analyzer by FFDRYT.</p>
         </div>
         {[
           { title:"Tool",    items:[["YPP Guide",()=>setPage("guide")],["FAQ",null],["Changelog",null]] },
