@@ -1,8 +1,67 @@
 import { useState, useEffect, useRef } from "react";
-// At the VERY TOP of App.jsx, add this import
-import AdBanner from './components/AdBanner';
 
-// Then inside your App component, find these locations:
+// ============================================================
+// AD BANNER COMPONENT (integrated directly)
+// ============================================================
+const AdBanner = ({ adKey, width, height, className, style = {} }) => {
+  const containerRef = useRef(null);
+  const isLoaded = useRef(false);
+
+  useEffect(() => {
+    if (isLoaded.current || !containerRef.current) return;
+    isLoaded.current = true;
+    
+    window.atOptions = {
+      key: adKey,
+      format: 'iframe',
+      height: height,
+      width: width,
+      params: {}
+    };
+    
+    const script = document.createElement('script');
+    script.src = `https://www.highperformanceformat.com/${adKey}/invoke.js`;
+    script.async = true;
+    script.setAttribute('data-cfasync', 'false');
+    
+    containerRef.current.appendChild(script);
+    
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.innerHTML = '';
+      }
+      isLoaded.current = false;
+    };
+  }, [adKey, width, height]);
+
+  return (
+    <div 
+      ref={containerRef}
+      className={className}
+      style={{ 
+        minWidth: width, 
+        minHeight: height,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '16px auto',
+        overflow: 'hidden',
+        ...style
+      }}
+    />
+  );
+};
+
+// ============================================================
+// YOUR 5 AD KEYS
+// ============================================================
+const AD_KEYS = {
+  BANNER_320x50: '92a4074511c826c0503cf9b6405698e3',   // Ad 1 - Top banner
+  BANNER_728x90: '3c7efd6cccf880252247f5e3f01023d6',   // Ad 2 - Leaderboard
+  BANNER_160x600: 'ed241e0d50d14c2187798f0457361372',  // Ad 3 - Sidebar skyscraper
+  BANNER_300x250: '89e7453f78e9e91da7d824f8f9982088',  // Ad 4 - Rectangle
+  BANNER_468x60: '880269cfd8add5827d838187796885af'    // Ad 5 - Footer banner
+};
 
 function injectFonts() {
   if (document.getElementById("mc-fonts")) return;
@@ -199,6 +258,14 @@ const Navbar = ({ page, setPage, isMobile, isDesktop }) => {
 const Footer = ({ setPage, isMobile }) => (
   <footer style={{ borderTop:"1px solid rgba(255,255,255,0.05)", padding:`36px ${isMobile?16:40}px 28px`, marginTop:80 }}>
     <div style={{ maxWidth:1080, margin:"0 auto" }}>
+      {/* Ad Banner 5 - Footer (468x60) */}
+      <AdBanner 
+        adKey={AD_KEYS.BANNER_468x60}
+        width={468}
+        height={60}
+        style={{ marginBottom: 32 }}
+      />
+      
       <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(4,1fr)", gap:isMobile?28:40, marginBottom:36 }}>
         <div style={{ gridColumn:isMobile?"1 / -1":"auto" }}>
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
@@ -244,6 +311,14 @@ const GuidePage = ({ isMobile, isTablet, setPage }) => {
   );
   return (
     <div style={{ maxWidth:860, margin:"0 auto", padding:`56px ${pad}px 80px`, animation:"slideUp .5s ease" }}>
+      {/* Ad Banner 2 - Inside Guide Page (728x90) */}
+      <AdBanner 
+        adKey={AD_KEYS.BANNER_728x90}
+        width={728}
+        height={90}
+        style={{ marginBottom: 32 }}
+      />
+      
       <div style={{ marginBottom:36 }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(0,229,160,0.07)", border:"1px solid rgba(0,229,160,0.18)", borderRadius:24, padding:"5px 14px", marginBottom:18 }}>
           <span style={{ fontSize:10, color:"#00E5A0", letterSpacing:1.5, fontFamily:"'DM Mono',monospace" }}>COMPLETE YPP GUIDE · 2025</span>
@@ -252,6 +327,7 @@ const GuidePage = ({ isMobile, isTablet, setPage }) => {
         <P>Everything you need to know about the YouTube Partner Program — requirements, strategy, common mistakes, and how to get approved faster. This guide is written for creators at every stage, from just starting out to already applying and getting rejected.</P>
       </div>
 
+      {/* Rest of GuidePage content remains the same... */}
       <H2>What Is the YouTube Partner Program?</H2>
       <P>The YouTube Partner Program (YPP) is YouTube's official monetization program that allows eligible creators to earn money from advertisements shown on their videos. When you join YPP, Google places ads before, during, and after your videos, and you receive a share of the revenue generated. Beyond advertising, YPP membership also unlocks access to channel memberships, Super Thanks, Super Chat during live streams, merchandise shelves, and the YouTube Shopping affiliate program.</P>
       <P>YPP was introduced in 2007, making it one of the longest-running creator monetization programs on any platform. Since then, YouTube has significantly tightened its eligibility criteria to ensure that only channels with genuine, advertiser-friendly content participate in revenue sharing. Understanding exactly what YouTube looks for is the first step toward getting approved.</P>
@@ -349,8 +425,14 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
   const H2 = ({ children }) => <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,3vw,26px)", fontWeight:800, color:"#fff", letterSpacing:-0.5, margin:"44px 0 14px", lineHeight:1.2 }}>{children}</h2>;
   return (
     <div style={{ maxWidth:900, margin:"0 auto", padding:`56px ${pad}px 80px`, animation:"slideUp .5s ease" }}>
+      {/* Ad Banner 3 - Inside About Page (300x250) */}
+      <AdBanner 
+        adKey={AD_KEYS.BANNER_300x250}
+        width={300}
+        height={250}
+        style={{ marginBottom: 32, float: 'right', marginLeft: 24 }}
+      />
 
-      {/* Hero */}
       <div style={{ marginBottom:44 }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(0,229,160,0.07)", border:"1px solid rgba(0,229,160,0.18)", borderRadius:24, padding:"5px 14px", marginBottom:18 }}>
           <span style={{ fontSize:10, color:"#00E5A0", letterSpacing:1.5, fontFamily:"'DM Mono',monospace" }}>ABOUT MONETIZECHECK</span>
@@ -359,14 +441,12 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
         <P>MonetizeCheck was born out of a frustration that tens of thousands of YouTube creators experience every year — spending months building a channel, hitting the subscriber and watch hour milestones, applying for YPP, and then getting rejected without a clear explanation. This tool exists so that no creator has to guess whether they're actually ready.</P>
       </div>
 
-      {/* Mission */}
       <div style={{ background:"rgba(0,229,160,0.04)", border:"1px solid rgba(0,229,160,0.14)", borderRadius:20, padding:isMobile?20:32, marginBottom:14 }}>
         <div style={{ fontSize:26, marginBottom:12 }}>🎯</div>
         <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:19, fontWeight:800, color:"#fff", marginBottom:10 }}>Our Mission</h3>
         <P>Give every YouTube creator — beginner or seasoned — a clear, honest picture of where their channel stands against YouTube's Partner Program requirements. No logins, no subscriptions, no paywalls. Just answers. MonetizeCheck analyzes your publicly available channel data using AI and cross-references it with YouTube's official YPP policies to generate a detailed eligibility report in under 30 seconds.</P>
       </div>
 
-      {/* Stats */}
       <div style={{ display:"grid", gridTemplateColumns:`repeat(${isMobile?2:4},1fr)`, gap:10, marginBottom:36 }}>
         {[["10,000+","Channels Analyzed"],["100%","Free Forever"],["2026","Year Launched"],["FFDRYT","Creator Behind It"]].map(([v,l])=>(
           <div key={l} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:14, padding:"18px 14px", textAlign:"center" }}>
@@ -385,7 +465,6 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
       <P>As someone who has been through the process of building a channel from zero, studying monetization requirements, and navigating YouTube's opaque review system, FFDRYT brings a creator-first perspective to every feature decision. The tool is designed the way a creator would want it to be: fast, honest, and free — with no account required and no data stored.</P>
       <P>MonetizeCheck is currently a solo project. Every design decision, every piece of code, every line of content, and every AI prompt that powers the analysis was built by one person with the goal of making the creator journey a little less confusing.</P>
 
-      {/* Two cards */}
       <div style={{ display:"grid", gridTemplateColumns:isTablet?"1fr":"1fr 1fr", gap:12, marginBottom:12 }}>
         {[
           { icon:"F", iconBg:"linear-gradient(135deg,#00E5A0,#00A870)", title:"Created by FFDRYT", body:"FFDRYT is an independent developer and YouTube creator who built MonetizeCheck to solve a real problem: knowing when your channel is actually ready to monetize — before wasting months going in the wrong direction. Every feature is informed by real experience building a channel from scratch." },
@@ -409,7 +488,6 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
       <P>This data is passed to a large language model trained to evaluate YouTube channels against the YPP eligibility framework. The AI generates a structured analysis covering six key dimensions: YPP numerical requirements, content originality, ad-friendliness, upload consistency, engagement signals, and policy compliance. Each dimension receives a score from 0 to 100, and these are weighted and combined into an overall eligibility score.</P>
       <P>The AI also generates a plain-language summary of your channel's current standing and a prioritized list of recommendations ordered by impact. The highest-priority recommendations address the factors most likely to cause a rejection or significantly improve your score if fixed. The analysis typically completes in 10 to 25 seconds depending on the size of your channel's public data.</P>
 
-      {/* How it works steps */}
       <H2>Step-by-Step: How to Use MonetizeCheck</H2>
       <div style={{ display:"flex", flexDirection:"column", gap:0, marginBottom:36 }}>
         {[
@@ -437,7 +515,6 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
       <P>There are also plans to add a YouTube Shorts-specific analysis track, reflecting YouTube's evolving policies around Shorts monetization. As YouTube continues to update its YPP criteria, MonetizeCheck's AI analysis will be updated to match, ensuring the tool always reflects the current state of the program.</P>
       <P>If you have a feature request, have encountered a bug, or want to suggest an improvement, the best way to reach FFDRYT is through the contact channels listed below. Genuine creator feedback directly shapes what gets built next.</P>
 
-      {/* What we don't do */}
       <div style={{ background:"rgba(255,71,87,0.04)", border:"1px solid rgba(255,71,87,0.14)", borderRadius:16, padding:isMobile?18:24, marginBottom:32 }}>
         <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:15, fontWeight:800, color:"#FF4757", marginBottom:14 }}>⚠ What MonetizeCheck Does NOT Do</h3>
         <div style={{ display:"grid", gridTemplateColumns:isTablet?"1fr":"1fr 1fr", gap:8 }}>
@@ -450,7 +527,6 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
         </div>
       </div>
 
-      {/* Contact */}
       <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:16, padding:isMobile?18:24, marginBottom:24 }}>
         <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:16, fontWeight:800, color:"#fff", marginBottom:10 }}>Get in Touch</h3>
         <P style={{ marginBottom:16 }}>Have a suggestion, found a bug, or want to collaborate? Reach out through any of the channels below. Responses typically arrive within 24 to 48 hours.</P>
@@ -575,7 +651,14 @@ const HomeEducationalContent = ({ isMobile, isTablet, setPage }) => {
   return (
     <section style={{ padding:`${isMobile?48:80}px 0`, borderTop:"1px solid rgba(255,255,255,0.05)" }}>
 
-      {/* What is YPP */}
+      {/* Ad Banner 4 - Inside Educational Content (300x250) */}
+      <AdBanner 
+        adKey={AD_KEYS.BANNER_300x250}
+        width={300}
+        height={250}
+        style={{ marginBottom: 32, float: 'left', marginRight: 24 }}
+      />
+
       <div style={{ marginBottom:56 }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(0,184,255,0.07)", border:"1px solid rgba(0,184,255,0.18)", borderRadius:24, padding:"5px 14px", marginBottom:20 }}>
           <span style={{ fontSize:10, color:"#00B8FF", letterSpacing:1.5, fontFamily:"'DM Mono',monospace" }}>YOUTUBE PARTNER PROGRAM · EXPLAINED</span>
@@ -593,7 +676,6 @@ const HomeEducationalContent = ({ isMobile, isTablet, setPage }) => {
         </div>
       </div>
 
-      {/* Requirements grid */}
       <div style={{ marginBottom:56 }}>
         <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,3vw,32px)", fontWeight:800, color:"#fff", letterSpacing:-0.8, marginBottom:20, lineHeight:1.2 }}>The 4 YPP Requirements — In Detail</h2>
         <div style={{ display:"grid", gridTemplateColumns:`repeat(${isMobile?1:2},1fr)`, gap:12 }}>
@@ -614,7 +696,6 @@ const HomeEducationalContent = ({ isMobile, isTablet, setPage }) => {
         </div>
       </div>
 
-      {/* Why channels get rejected */}
       <div style={{ marginBottom:56 }}>
         <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,3vw,32px)", fontWeight:800, color:"#fff", letterSpacing:-0.8, marginBottom:16, lineHeight:1.2 }}>Why Channels Get Rejected from YPP — The Real Reasons</h2>
         <P>The most common reason creators get rejected from YPP despite meeting the numerical requirements is low content quality or poor advertiser-friendliness — and neither of these is directly visible in the basic metrics. YouTube's review team looks at your last 20 to 30 videos and asks a simple question: would a mainstream advertiser be comfortable having their brand associated with this content?</P>
@@ -636,7 +717,6 @@ const HomeEducationalContent = ({ isMobile, isTablet, setPage }) => {
         </div>
       </div>
 
-      {/* Tips to grow */}
       <div style={{ marginBottom:56 }}>
         <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,3vw,32px)", fontWeight:800, color:"#fff", letterSpacing:-0.8, marginBottom:16, lineHeight:1.2 }}>Proven Strategies to Reach 1,000 Subscribers Faster</h2>
         <div style={{ display:"grid", gridTemplateColumns:isTablet?"1fr":"1fr 1fr", gap:isMobile?0:32 }}>
@@ -653,7 +733,6 @@ const HomeEducationalContent = ({ isMobile, isTablet, setPage }) => {
         </div>
       </div>
 
-      {/* CTA to guide */}
       <div style={{ background:"rgba(0,184,255,0.04)", border:"1px solid rgba(0,184,255,0.16)", borderRadius:20, padding:isMobile?20:36, textAlign:"center" }}>
         <div style={{ fontSize:26, marginBottom:12 }}>📖</div>
         <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:22, fontWeight:800, color:"#fff", marginBottom:10 }}>Want the Full YPP Strategy Guide?</h3>
@@ -711,7 +790,14 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
   return (
     <div style={{ maxWidth:1080, margin:"0 auto", padding:`0 ${P}px` }}>
 
-      {/* Hero */}
+      {/* Ad Banner 1 - Top of Home Page (320x50) */}
+      <AdBanner 
+        adKey={AD_KEYS.BANNER_320x50}
+        width={320}
+        height={50}
+        style={{ marginTop: 16, marginBottom: 8 }}
+      />
+
       <section style={{ padding:`${isMobile?40:76}px 0 ${isMobile?28:52}px`, animation:"slideUp .6s ease" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,229,160,0.07)", border:"1px solid rgba(0,229,160,0.18)", borderRadius:24, padding:"6px 14px", marginBottom:isMobile?18:26 }}>
           <span style={{ fontSize:11 }}>✦</span>
@@ -744,7 +830,6 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
         </div>
       </section>
 
-      {/* Search */}
       <div style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:18, padding:`${isMobile?18:24}px ${isMobile?14:26}px`, marginBottom:16, backdropFilter:"blur(12px)" }}>
         <div style={{ fontSize:9, color:"rgba(255,255,255,0.22)", letterSpacing:2.5, marginBottom:12, fontFamily:"'DM Mono',monospace", textTransform:"uppercase" }}>Enter YouTube Channel URL or Handle</div>
         <div style={{ display:"flex", gap:10, flexDirection:isMobile?"column":"row" }}>
@@ -773,7 +858,6 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
         <div style={{ marginTop:10, fontSize:10, color:"rgba(255,255,255,0.1)", fontFamily:"'DM Mono',monospace" }}>Accepts: youtube.com/@handle · youtube.com/c/name · @handle · UCxxxxx channel ID</div>
       </div>
 
-      {/* Loading */}
       {loading && (
         <div style={{ textAlign:"center", padding:"72px 20px", animation:"fadeIn .4s ease" }}>
           <div style={{ position:"relative", width:70, height:70, margin:"0 auto 26px" }}>
@@ -789,13 +873,11 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
         </div>
       )}
 
-      {/* Results */}
       {data && (() => {
         const { channel, monetizationEligibility: me, videos, recommendations, summary } = data;
         const vc = getVerdictConfig(me?.verdict);
         return (
           <div style={{ animation:"slideUp .5s ease" }}>
-            {/* Channel Card */}
             <div style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:18, padding:`${isMobile?16:22}px ${isMobile?14:24}px`, marginBottom:12 }}>
               <div style={{ display:"flex", gap:14, alignItems:"flex-start", flexWrap:isMobile?"wrap":"nowrap" }}>
                 <div style={{ width:54, height:54, background:"linear-gradient(135deg,#00E5A0,#00A870)", borderRadius:13, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, fontWeight:900, color:"#fff", flexShrink:0, fontFamily:"'Syne',sans-serif" }}>{channel?.name?.[0]?.toUpperCase()||"Y"}</div>
@@ -817,7 +899,6 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
               </div>
             </div>
 
-            {/* Verdict Card */}
             <div style={{ background:vc.bg, border:`1px solid ${vc.border}`, borderRadius:18, padding:`${isMobile?18:24}px ${isMobile?14:26}px`, marginBottom:12, position:"relative", overflow:"hidden" }}>
               <div style={{ position:"absolute", top:-80, right:-80, width:280, height:280, borderRadius:"50%", background:`radial-gradient(circle,${vc.color}10,transparent 70%)`, pointerEvents:"none" }}/>
               <div style={{ display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:16, alignItems:"flex-start" }}>
@@ -860,7 +941,6 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
               )}
             </div>
 
-            {/* YPP Quick Grid */}
             <div style={{ display:"grid", gridTemplateColumns:`repeat(${isMobile?2:4},1fr)`, gap:8, marginBottom:12 }}>
               {[
                 { lbl:"Subscribers", met:me?.ytpRequirements?.subscribers?.met, req:"1,000 min" },
@@ -879,7 +959,6 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
               ))}
             </div>
 
-            {/* Tabs */}
             <div style={{ display:"flex", borderBottom:"1px solid rgba(255,255,255,0.06)", marginBottom:16, overflowX:"auto", WebkitOverflowScrolling:"touch", scrollbarWidth:"none" }}>
               {[{ id:"overview",l:"Overview"},{ id:"videos",l:`Videos (${videos?.length||0})`},{ id:"policy",l:"Policy"},{ id:"tips",l:"Action Plan"},{ id:"timeline",l:"Roadmap"},{ id:"faq",l:"FAQ"}].map(t=>(
                 <button key={t.id} className="tab-btn" onClick={()=>setActiveTab(t.id)}
@@ -1043,7 +1122,6 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
         );
       })()}
 
-      {/* Educational content always visible when no results */}
       {!data && !loading && (
         <HomeEducationalContent isMobile={isMobile} isTablet={isTablet} setPage={setPage}/>
       )}
@@ -1057,7 +1135,6 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
   );
 };
 
-/* ══════════════════════════ ROOT APP ══════════════════════════════════════ */
 export default function App() {
   const [page, setPage] = useState("home");
   const { isMobile, isTablet, isDesktop } = useBreakpoint();
