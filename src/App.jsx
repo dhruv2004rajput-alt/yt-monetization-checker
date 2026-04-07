@@ -204,9 +204,9 @@ const Footer = ({ setPage, isMobile }) => (
           <p style={{ fontSize:11, color:"#fff", lineHeight:1.8, maxWidth:200, fontFamily:"'Inter',sans-serif" }}>Free AI-powered YouTube monetization eligibility analyzer by FFDRYT.</p>
         </div>
         {[
-          { title:"Tool",    items:[["YPP Guide",()=>setPage("guide")],["FAQ",null],["Changelog",null]] },
-          { title:"Company", items:[["About",()=>setPage("about")],["Contact",null],["Blog",null]] },
-          { title:"Legal",   items:[["Privacy Policy",()=>setPage("privacy")],["Terms of Use",null],["Disclaimer",null]] },
+          { title:"Tool",    items:[["YPP Guide",()=>setPage("guide")]] },
+          { title:"Company", items:[["About",()=>setPage("about")]] },
+          { title:"Legal",   items:[["Privacy Policy",()=>setPage("privacy")]] },
         ].map(col=>(
           <div key={col.title}>
             <div style={{ fontSize:9, color:"rgba(255,255,255,0.2)", letterSpacing:2.5, marginBottom:14, fontFamily:"'DM Mono',monospace", textTransform:"uppercase" }}>{col.title}</div>
