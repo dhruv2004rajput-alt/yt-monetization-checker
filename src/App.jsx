@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+// At the VERY TOP of App.jsx, add this import
+import AdBanner from './components/AdBanner';
+
+// Then inside your App component, find these locations:
 
 function injectFonts() {
   if (document.getElementById("mc-fonts")) return;
