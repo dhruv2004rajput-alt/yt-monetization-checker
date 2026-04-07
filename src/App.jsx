@@ -155,8 +155,8 @@ const Navbar = ({ page, setPage, isMobile, isDesktop }) => {
         <div style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer", flexShrink:0 }} onClick={()=>setPage("home")}>
           <div style={{ width:34, height:34, background:"linear-gradient(135deg,#00E5A0,#00A870)", borderRadius:9, display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, boxShadow:"0 4px 14px rgba(0,229,160,0.3)" }}>▶</div>
           <div>
-            <div style={{ fontSize:isMobile?14:16, fontWeight:800, color:"#fff", letterSpacing:-0.5, fontFamily:"'Syne',sans-serif", lineHeight:1.1 }}>Monetize<span style={{ color:"#00E5A0" }}>Check</span></div>
-            <div style={{ fontSize:8, color:"rgba(255,255,255,0.2)", letterSpacing:2, fontFamily:"'DM Mono',monospace" }}>by FFDRYT · Free AI</div>
+            <div style={{ fontSize:isMobile?14:16, fontWeight:800, color:"#fff", letterSpacing:-0.5, fontFamily:"'Syne',sans-serif", lineHeight:1.1 }}>Monetize<span style={{ color:"#00E5A0" }}>Analyze</span></div>
+            <div style={{ fontSize:8, color:"#fff)", letterSpacing:2, fontFamily:"'DM Mono',monospace" }}>by FFDRYT · AI POWERED</div>
           </div>
         </div>
         {isDesktop ? (
@@ -219,8 +219,8 @@ const Footer = ({ setPage, isMobile }) => (
         ))}
       </div>
       <div style={{ borderTop:"1px solid rgba(255,255,255,0.05)", paddingTop:20, display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:10 }}>
-        <span style={{ fontSize:10, color:"rgba(255,255,255,0.14)", fontFamily:"'DM Mono',monospace" }}>© 2025 FFDRYT · MonetizeCheck · Free Tool</span>
-        <span style={{ fontSize:10, color:"rgba(255,255,255,0.1)", fontFamily:"'DM Mono',monospace" }}>Not affiliated with YouTube™ or Google LLC</span>
+        <span style={{ fontSize:10, color:"rgba(255,255,255,0.14)", fontFamily:"'DM Mono',monospace" }}>© 2026 FFDRYT · MonetizeCheck · Free Tool</span>
+        <span style={{ fontSize:10, color:"rgba(255,255,255,0.1)", fontFamily:"'DM Mono',monospace" }}> Created with love from FFDRYT</span>
       </div>
     </div>
   </footer>
