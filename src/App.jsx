@@ -155,7 +155,7 @@ const Navbar = ({ page, setPage, isMobile, isDesktop }) => {
         <div style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer", flexShrink:0 }} onClick={()=>setPage("home")}>
           <div style={{ width:34, height:34, background:"linear-gradient(135deg,#00E5A0,#00A870)", borderRadius:9, display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, boxShadow:"0 4px 14px rgba(0,229,160,0.3)" }}>▶</div>
           <div>
-            <div style={{ fontSize:isMobile?14:16, fontWeight:800, color:"#fff", letterSpacing:-0.5, fontFamily:"'Syne',sans-serif", lineHeight:1.1 }}>Monetize<span style={{ color:"#00E5A0" }}>Analyze</span></div>
+            <div style={{ fontSize:isMobile?14:16, fontWeight:800, color:"#fff", letterSpacing:-0.5, fontFamily:"'Syne',sans-serif", lineHeight:1.1 }}>Monetize<span style={{ color:"#00E5A0" }}>Check</span></div>
             <div style={{ fontSize:8, color:"#fff)", letterSpacing:2, fontFamily:"'DM Mono',monospace" }}>by FFDRYT · AI POWERED</div>
           </div>
         </div>
@@ -220,7 +220,7 @@ const Footer = ({ setPage, isMobile }) => (
       </div>
       <div style={{ borderTop:"1px solid rgba(255,255,255,0.05)", paddingTop:20, display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:10 }}>
         <span style={{ fontSize:10, color:"rgba(255,255,255,0.14)", fontFamily:"'DM Mono',monospace" }}>© 2026 FFDRYT · MonetizeCheck · Free Tool</span>
-        <span style={{ fontSize:10, color:"rgba(255,255,255,0.1)", fontFamily:"'DM Mono',monospace" }}> Created with love from FFDRYT</span>
+        <span style={{ fontSize:10, color:"rgba(255,255,255,0.1)", fontFamily:"'DM Mono',monospace" }}> Created with love by FFDRYT</span>
       </div>
     </div>
   </footer>
@@ -364,7 +364,7 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
 
       {/* Stats */}
       <div style={{ display:"grid", gridTemplateColumns:`repeat(${isMobile?2:4},1fr)`, gap:10, marginBottom:36 }}>
-        {[["10,000+","Channels Analyzed"],["100%","Free Forever"],["2025","Year Launched"],["1","Creator Behind It"]].map(([v,l])=>(
+        {[["10,000+","Channels Analyzed"],["100%","Free Forever"],["2026","Year Launched"],["1","Creator Behind It"]].map(([v,l])=>(
           <div key={l} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:14, padding:"18px 14px", textAlign:"center" }}>
             <div style={{ fontSize:20, fontWeight:800, color:"#00E5A0", fontFamily:"'Syne',sans-serif", letterSpacing:-0.5, marginBottom:6 }}>{v}</div>
             <div style={{ fontSize:9, color:"rgba(255,255,255,0.3)", fontFamily:"'DM Mono',monospace", letterSpacing:1.5, textTransform:"uppercase" }}>{l}</div>
