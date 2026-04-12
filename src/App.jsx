@@ -1,68 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 
-// ============================================================
-// AD BANNER COMPONENT (integrated directly)
-// ============================================================
-const AdBanner = ({ adKey, width, height, className, style = {} }) => {
-  const containerRef = useRef(null);
-  const isLoaded = useRef(false);
-
-  useEffect(() => {
-    if (isLoaded.current || !containerRef.current) return;
-    isLoaded.current = true;
-    
-    window.atOptions = {
-      key: adKey,
-      format: 'iframe',
-      height: height,
-      width: width,
-      params: {}
-    };
-    
-    const script = document.createElement('script');
-    script.src = `https://www.highperformanceformat.com/${adKey}/invoke.js`;
-    script.async = true;
-    script.setAttribute('data-cfasync', 'false');
-    
-    containerRef.current.appendChild(script);
-    
-    return () => {
-      if (containerRef.current) {
-        containerRef.current.innerHTML = '';
-      }
-      isLoaded.current = false;
-    };
-  }, [adKey, width, height]);
-
-  return (
-    <div 
-      ref={containerRef}
-      className={className}
-      style={{ 
-        minWidth: width, 
-        minHeight: height,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: '16px auto',
-        overflow: 'hidden',
-        ...style
-      }}
-    />
-  );
-};
-
-// ============================================================
-// YOUR 5 AD KEYS
-// ============================================================
-const AD_KEYS = {
-  BANNER_320x50: '92a4074511c826c0503cf9b6405698e3',   // Ad 1 - Top banner
-  BANNER_728x90: '3c7efd6cccf880252247f5e3f01023d6',   // Ad 2 - Leaderboard
-  BANNER_160x600: 'ed241e0d50d14c2187798f0457361372',  // Ad 3 - Sidebar skyscraper
-  BANNER_300x250: '89e7453f78e9e91da7d824f8f9982088',  // Ad 4 - Rectangle
-  BANNER_468x60: '880269cfd8add5827d838187796885af',    // Ad 5 - Footer banner
-};
-
 function injectFonts() {
   if (document.getElementById("mc-fonts")) return;
   const link = document.createElement("link");
@@ -197,6 +134,7 @@ async function generateWordReport(data) {
   });
   return await Packer.toBuffer(doc);
 }
+
 async function downloadReport(data, setDownloading) {
   setDownloading(true);
   try {
@@ -258,14 +196,6 @@ const Navbar = ({ page, setPage, isMobile, isDesktop }) => {
 const Footer = ({ setPage, isMobile }) => (
   <footer style={{ borderTop:"1px solid rgba(255,255,255,0.05)", padding:`36px ${isMobile?16:40}px 28px`, marginTop:80 }}>
     <div style={{ maxWidth:1080, margin:"0 auto" }}>
-      {/* Ad Banner 5 - Footer (468x60) */}
-      <AdBanner 
-        adKey={AD_KEYS.BANNER_468x60}
-        width={468}
-        height={60}
-        style={{ marginBottom: 32 }}
-      />
-      
       <div style={{ display:"grid", gridTemplateColumns:isMobile?"1fr 1fr":"repeat(4,1fr)", gap:isMobile?28:40, marginBottom:36 }}>
         <div style={{ gridColumn:isMobile?"1 / -1":"auto" }}>
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:12 }}>
@@ -311,14 +241,6 @@ const GuidePage = ({ isMobile, isTablet, setPage }) => {
   );
   return (
     <div style={{ maxWidth:860, margin:"0 auto", padding:`56px ${pad}px 80px`, animation:"slideUp .5s ease" }}>
-      {/* Ad Banner 2 - Inside Guide Page (728x90) */}
-      <AdBanner 
-        adKey={AD_KEYS.BANNER_728x90}
-        width={728}
-        height={90}
-        style={{ marginBottom: 32 }}
-      />
-      
       <div style={{ marginBottom:36 }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(0,229,160,0.07)", border:"1px solid rgba(0,229,160,0.18)", borderRadius:24, padding:"5px 14px", marginBottom:18 }}>
           <span style={{ fontSize:10, color:"#00E5A0", letterSpacing:1.5, fontFamily:"'DM Mono',monospace" }}>COMPLETE YPP GUIDE · 2025</span>
@@ -327,7 +249,6 @@ const GuidePage = ({ isMobile, isTablet, setPage }) => {
         <P>Everything you need to know about the YouTube Partner Program — requirements, strategy, common mistakes, and how to get approved faster. This guide is written for creators at every stage, from just starting out to already applying and getting rejected.</P>
       </div>
 
-      {/* Rest of GuidePage content remains the same... */}
       <H2>What Is the YouTube Partner Program?</H2>
       <P>The YouTube Partner Program (YPP) is YouTube's official monetization program that allows eligible creators to earn money from advertisements shown on their videos. When you join YPP, Google places ads before, during, and after your videos, and you receive a share of the revenue generated. Beyond advertising, YPP membership also unlocks access to channel memberships, Super Thanks, Super Chat during live streams, merchandise shelves, and the YouTube Shopping affiliate program.</P>
       <P>YPP was introduced in 2007, making it one of the longest-running creator monetization programs on any platform. Since then, YouTube has significantly tightened its eligibility criteria to ensure that only channels with genuine, advertiser-friendly content participate in revenue sharing. Understanding exactly what YouTube looks for is the first step toward getting approved.</P>
@@ -425,14 +346,6 @@ const AboutPage = ({ isMobile, isTablet, setPage }) => {
   const H2 = ({ children }) => <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,3vw,26px)", fontWeight:800, color:"#fff", letterSpacing:-0.5, margin:"44px 0 14px", lineHeight:1.2 }}>{children}</h2>;
   return (
     <div style={{ maxWidth:900, margin:"0 auto", padding:`56px ${pad}px 80px`, animation:"slideUp .5s ease" }}>
-      {/* Ad Banner 3 - Inside About Page (300x250) */}
-      <AdBanner 
-        adKey={AD_KEYS.BANNER_300x250}
-        width={300}
-        height={250}
-        style={{ marginBottom: 32, float: 'right', marginLeft: 24 }}
-      />
-
       <div style={{ marginBottom:44 }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(0,229,160,0.07)", border:"1px solid rgba(0,229,160,0.18)", borderRadius:24, padding:"5px 14px", marginBottom:18 }}>
           <span style={{ fontSize:10, color:"#00E5A0", letterSpacing:1.5, fontFamily:"'DM Mono',monospace" }}>ABOUT MONETIZECHECK</span>
@@ -650,15 +563,6 @@ const HomeEducationalContent = ({ isMobile, isTablet, setPage }) => {
   const P = ({ children }) => <p style={{ fontSize:14, color:"rgba(255,255,255,0.45)", lineHeight:1.9, marginBottom:14, fontFamily:"'Inter',sans-serif", fontWeight:300 }}>{children}</p>;
   return (
     <section style={{ padding:`${isMobile?48:80}px 0`, borderTop:"1px solid rgba(255,255,255,0.05)" }}>
-
-      {/* Ad Banner 4 - Inside Educational Content (300x250) */}
-      <AdBanner 
-        adKey={AD_KEYS.BANNER_300x250}
-        width={300}
-        height={250}
-        style={{ marginBottom: 32, float: 'left', marginRight: 24 }}
-      />
-
       <div style={{ marginBottom:56 }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(0,184,255,0.07)", border:"1px solid rgba(0,184,255,0.18)", borderRadius:24, padding:"5px 14px", marginBottom:20 }}>
           <span style={{ fontSize:10, color:"#00B8FF", letterSpacing:1.5, fontFamily:"'DM Mono',monospace" }}>YOUTUBE PARTNER PROGRAM · EXPLAINED</span>
@@ -789,15 +693,6 @@ const HomePage = ({ isMobile, isTablet, isDesktop, setPage }) => {
 
   return (
     <div style={{ maxWidth:1080, margin:"0 auto", padding:`0 ${P}px` }}>
-
-      {/* Ad Banner 1 - Top of Home Page (320x50) */}
-      <AdBanner 
-        adKey={AD_KEYS.BANNER_320x50}
-        width={320}
-        height={50}
-        style={{ marginTop: 16, marginBottom: 8 }}
-      />
-
       <section style={{ padding:`${isMobile?40:76}px 0 ${isMobile?28:52}px`, animation:"slideUp .6s ease" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,229,160,0.07)", border:"1px solid rgba(0,229,160,0.18)", borderRadius:24, padding:"6px 14px", marginBottom:isMobile?18:26 }}>
           <span style={{ fontSize:11 }}>✦</span>
