@@ -370,9 +370,9 @@ const Footer = ({ setPage, isMobile }) => (
           </div>
         ))}
       </div>
-      <div style={{ borderTop:"1px solid rgba(255,255,255,0.05)", paddingTop:20, display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:10 }}>
-        <span style={{ fontSize:10, color:"rgba(255,255,255,0.14)", fontFamily:"'DM Mono',monospace" }}>© 2026 FFDRYT · MonetizeCheck · Free Tool</span>
-        <span style={{ fontSize:10, color:"rgba(255,255,255,0.1)", fontFamily:"'DM Mono',monospace" }}>Created with love by FFDRYT</span>
+      <div style={{ borderTop:"1px solid rgba(255,255,255,0.35)", paddingTop:20, display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:10 }}>
+        <span style={{ fontSize:10, color:"rgba(255,255,255,0.35)", fontFamily:"'DM Mono',monospace" }}>© 2026 FFDRYT · MonetizeCheck · Free Tool</span>
+        <span style={{ fontSize:10, color:"rgba(255,255,255,0.35)", fontFamily:"'DM Mono',monospace" }}>Created with love by FFDRYT</span>
       </div>
     </div>
   </footer>
